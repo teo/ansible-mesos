@@ -1,6 +1,9 @@
 ---
 - name: Add mesosphere repo
-  yum: name={{ mesosphere_yum_repo }} state=present
+  yum: name={{ mesosphere_yum_repo }} state=present validate_certs=no
+  register: yum_res
+  retries: 5
+  until: yum_res is success  
 
 - name: Downloading and enable the EPEL repository definitions.
   yum: name={{ epel_repo }} state=present
